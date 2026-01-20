@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartSchool Diary</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="light">
+
+<div class="toggle">
+  <button onclick="toggleTheme()">🌙 / ☀️</button>
+</div>
+
+<div class="container" id="auth">
+  <h1>SmartSchool Diary</h1>
+  <input id="regName" placeholder="Потребителско име">
+  <select id="regRole">
+    <option value="student">Ученик</option>
+    <option value="teacher">Учител</option>
+    <option value="admin">Администратор</option>
+  </select>
+  <button onclick="register()">Регистрация</button>
+  <button onclick="login()">Вход</button>
+</div>
+
+<div class="container hidden" id="app">
+  <header>
+    <h2 id="welcome"></h2>
+    <button onclick="logout()">Изход</button>
+  </header>
+
+  <nav>
+    <button onclick="show('grades')">Оценки</button>
+    <button onclick="show('homework')">Домашни</button>
+    <button onclick="show('absences')">Отсъствия</button>
+    <button onclick="show('adminPanel')">Админ</button>
+  </nav>
+
+  <main>
+    <section id="grades"></section>
+    <section id="homework" class="hidden"></section>
+    <section id="absences" class="hidden"></section>
+    <section id="adminPanel" class="hidden"></section>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
