@@ -83,7 +83,19 @@ function addGrade(){
 
 function renderHomework(){
   homework.innerHTML='<h3>Домашни</h3>';
-  db.homework.forEach(h=>homework.innerHTML+=`<p>${h.subject}: ${h.text}</p>`);
+  if(user.role==='teacher'){
+    homework.innerHTML+=`
+      <input id="hw-subject" placeholder="Предмет">
+      <textarea id="hw-text" placeholder="Описание на домашното"></textarea>
+      <button onclick="addHomework()">Добави домашно</button>`;
+  }
+  db.homework.forEach(h=>homework.innerHTML+=`<p><strong>${h.subject}:</strong> ${h.text}</p>`);
+}
+
+function addHomework(){
+  if(!hwSubject.value || !hwText.value) return notify('Попълни всички полета');
+  db.homework.push({subject:hwSubject.value, text:hwText.value});
+  save(); hwSubject.value=''; hwText.value=''; renderHomework(); notify('Добавено домашно');
 }
 
 function renderAbsences(){
