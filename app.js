@@ -75,8 +75,10 @@ function renderGrades(){
 }
 
 function addGrade(){
-  db.grades.push({student:gs.value, subject:sub.value, value:val.value});
-  save(); renderGrades(); notify('Добавена оценка');
+  if(!gs.value || !sub.value || !val.value) return notify('Попълни всички полета');
+  if(val.value<2 || val.value>6) return notify('Оценката трябва да е между 2 и 6');
+  db.grades.push({student:gs.value, subject:sub.value, value:parseInt(val.value)});
+  save(); gs.value=''; sub.value=''; val.value=''; renderGrades(); notify('Добавена оценка');
 }
 
 function renderHomework(){
@@ -86,8 +88,20 @@ function renderHomework(){
 
 function renderAbsences(){
   absences.innerHTML='<h3>Отсъствия</h3>';
+  if(user.role==='teacher'){
+    absences.innerHTML+=`
+      <input id="abs-student" placeholder="Ученик">
+      <input id="abs-date" type="date">
+      <button onclick="addAbsence()">Добави отсъствие</button>`;
+  }
   db.absences.filter(a=>user.role!=='student'||a.student===user.name)
     .forEach(a=>absences.innerHTML+=`<p>${a.student}: ${a.date}</p>`);
+}
+
+function addAbsence(){
+  if(!absStudent.value || !absDate.value) return notify('Попълни всички полета');
+  db.absences.push({student:absStudent.value, date:absDate.value});
+  save(); absStudent.value=''; absDate.value=''; renderAbsences(); notify('Добавено отсъствие');
 }
 
 function renderAdmin(){
